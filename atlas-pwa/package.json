@@ -1,0 +1,21 @@
+{
+  "name": "tanium-atlas-pwa",
+  "version": "0.1.0",
+  "description": "Mobile PWA for chatting with Tanium Atlas through the Atlas MCP server",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server/index.js",
+    "dev": "node --watch --env-file-if-exists=.env server/index.js",
+    "mock": "ATLAS_MOCK=1 APP_PASSCODE=${APP_PASSCODE:-demo} node server/index.js",
+    "icons": "node scripts/make-icons.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.11.0",
+    "express": "^5.3.0"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.12"
+  }
+}
