@@ -1,9 +1,9 @@
 // App-shell service worker: the UI opens instantly and offline; API calls
 // always go to the network (chat needs live Atlas data).
-const VERSION = "atlas-v2";
+const VERSION = "atlas-v3";
 const SHELL = [
   "/", "/index.html", "/styles.css", "/app.js", "/md.js", "/manifest.webmanifest",
-  "/icons/icon.svg", "/icons/icon-192.png", "/icons/icon-512.png", "/icons/apple-touch-icon.png",
+  "/icons/icon.svg", "/icons/logo.svg", "/icons/icon-192.png", "/icons/icon-512.png", "/icons/apple-touch-icon.png",
 ];
 
 self.addEventListener("install", (event) => {
