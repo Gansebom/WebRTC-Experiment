@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Atlas</title>
   <meta name="description" content="Chat with Tanium Atlas from your iPhone.">
-  <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
-  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#11111c">
+  <meta name="color-scheme" content="dark">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -33,36 +32,50 @@
   </section>
 
   <div id="app" class="app" hidden>
-    <!-- Conversations sidebar: a drawer on the outer screen, a column on the inner screen -->
-    <aside id="sidebar" class="sidebar" aria-label="Conversations">
+    <!-- Icon rail (inner screen only) -->
+    <nav class="rail" aria-label="App">
+      <img class="logo" src="/icons/icon.svg" alt="Atlas">
+      <button class="btn-icon active" aria-label="Pages" title="Pages" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="12" height="15" rx="2"/><path d="M16 21H6a2 2 0 0 1-2-2V7"/><path d="M11 8h6M11 12h6"/></svg>
+      </button>
+      <div class="spacer"></div>
+      <button class="btn-icon" data-lock aria-label="Lock" title="Lock">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      </button>
+    </nav>
+
+    <!-- Pages sidebar: a drawer on the outer screen, a column on the inner screen -->
+    <aside id="sidebar" class="sidebar" aria-label="Pages">
       <div class="sidebar-head">
-        <div class="brand"><img src="/icons/icon.svg" alt="" width="28" height="28"><span>Atlas</span></div>
-        <button id="new-chat-side" class="btn-icon" aria-label="New chat" title="New chat">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        <h2>Pages</h2>
+      </div>
+      <div class="sidebar-actions">
+        <button id="new-chat-side" class="new-page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>New Page
         </button>
       </div>
       <label class="search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg>
-        <input id="search" type="search" placeholder="Search chats" autocomplete="off">
+        <input id="search" type="search" placeholder="Search pages" autocomplete="off">
       </label>
       <nav id="conversation-list" class="conversation-list"></nav>
       <div class="sidebar-foot">
         <span id="status-pill" class="pill"></span>
-        <button id="lock" class="btn-text">Lock</button>
+        <button class="btn-text lock-foot" data-lock>Lock</button>
       </div>
     </aside>
     <div id="scrim" class="scrim" hidden></div>
 
     <main class="chat" aria-live="polite">
       <header class="chat-head">
-        <button id="menu" class="btn-icon only-compact" aria-label="Show conversations">
+        <button id="menu" class="btn-icon only-compact" aria-label="Show pages">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
         </button>
-        <button id="title" class="chat-title" title="Rename chat">New chat</button>
-        <button id="chat-menu" class="btn-icon" aria-label="Chat options" hidden>
+        <button id="title" class="chat-title" title="Rename page">New page</button>
+        <button id="chat-menu" class="btn-icon" aria-label="Page options" hidden>
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg>
         </button>
-        <button id="new-chat" class="btn-icon only-compact" aria-label="New chat">
+        <button id="new-chat" class="btn-icon only-compact" aria-label="New page">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>
         </button>
       </header>
@@ -82,22 +95,27 @@
         </div>
       </div>
 
-      <form id="composer" class="composer">
-        <textarea id="input" rows="1" placeholder="Message Atlas" enterkeyhint="send" aria-label="Message"></textarea>
-        <button id="send" type="submit" class="btn-send" aria-label="Send" disabled>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
-        </button>
-        <button id="stop" type="button" class="btn-send stop" aria-label="Stop" hidden>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/></svg>
-        </button>
-      </form>
+      <div class="composer-wrap">
+        <form id="composer" class="composer">
+          <textarea id="input" rows="1" placeholder="Write a message..." enterkeyhint="send" aria-label="Message"></textarea>
+          <div class="composer-row">
+            <button id="send" type="submit" class="btn-send" aria-label="Send" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+            </button>
+            <button id="stop" type="button" class="btn-send stop" aria-label="Stop" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+            </button>
+          </div>
+        </form>
+        <p class="disclaimer">AI generated; verify results.</p>
+      </div>
     </main>
   </div>
 
   <div id="sheet" class="sheet" hidden>
     <div class="sheet-card" role="dialog" aria-modal="true">
       <button data-action="rename">Rename</button>
-      <button data-action="delete" class="danger">Delete chat</button>
+      <button data-action="delete" class="danger">Delete page</button>
       <button data-action="cancel" class="cancel">Cancel</button>
     </div>
   </div>

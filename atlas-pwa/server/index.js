@@ -121,7 +121,7 @@ api.post("/conversations/:id/messages", async (req, res, next) => {
     return next(e);
   }
   if (!convo) return res.status(404).json({ error: "Not found" });
-  if (busy.has(convo.id)) return res.status(409).json({ error: "Atlas is still answering in this chat" });
+  if (busy.has(convo.id)) return res.status(409).json({ error: "Atlas is still answering on this page" });
   busy.add(convo.id);
 
   res.writeHead(200, {

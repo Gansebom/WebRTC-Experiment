@@ -5,9 +5,12 @@ regular iPhone and on a foldable iPhone, on either the outer or the inner screen
 
 - **Chat** with Atlas. Answers stream in live, and the tools Atlas calls in your
   Tanium environment show as chips under each reply.
-- **New chats** from the ✎ button (outer screen) or the **+** in the sidebar (inner screen).
-- **Previous conversations** are listed by date, can be searched, and can be renamed
+- **New pages** (chats) from the ✎ button (outer screen) or **+ New Page** in the sidebar.
+- **Previous pages** are listed by date, can be searched, and can be renamed
   or deleted from the **•••** menu.
+- **Looks like Atlas**: the same dark navy palette, periwinkle accent, icon rail,
+  "Pages" sidebar, slate message bubbles and black composer. Colors are CSS
+  variables at the top of `public/styles.css`.
 - **Installable**: in Safari, tap Share, then **Add to Home Screen**. It opens full screen
   with its own icon.
 
@@ -30,9 +33,9 @@ to confirm in the chat. Atlas's own approval guardrails still apply.
 
 | Where | Layout |
 | --- | --- |
-| Regular iPhone, or the outer screen of a foldable | A single chat pane. ☰ (or a swipe from the left edge) opens your conversations as a drawer. |
-| Inner screen of a foldable, or landscape | Conversations in a sidebar beside the chat |
-| A window spanning a fold (Viewport Segments API) | The sidebar on one half and the chat on the other, with nothing under the hinge |
+| Regular iPhone, or the outer screen of a foldable | A single chat pane. ☰ (or a swipe from the left edge) opens Pages as a drawer. |
+| Inner screen of a foldable, or landscape | Icon rail, Pages sidebar and chat side by side, like Atlas on the desktop |
+| A window spanning a fold (Viewport Segments API) | Rail and Pages on one half and the chat on the other, with nothing under the hinge |
 
 The layout switches automatically when you fold or unfold. The composer stays above the
 keyboard, and safe areas (notch, Dynamic Island, home indicator) are respected.

@@ -7,7 +7,7 @@ const els = {
   menu: $("#menu"), title: $("#title"), chatMenu: $("#chat-menu"), newChat: $("#new-chat"), newChatSide: $("#new-chat-side"),
   scroller: $("#scroller"), messages: $("#messages"), empty: $("#empty"),
   composer: $("#composer"), input: $("#input"), send: $("#send"), stop: $("#stop"),
-  status: $("#status-pill"), lock: $("#lock"), sheet: $("#sheet"), toast: $("#toast"),
+  status: $("#status-pill"), sheet: $("#sheet"), toast: $("#toast"),
 };
 
 const TOKEN_KEY = "atlas.passcode";
@@ -70,7 +70,7 @@ els.loginForm.addEventListener("submit", async (e) => {
     if (err.message !== "Unauthorized") els.loginError.textContent = "Can't reach the Atlas server.";
   }
 });
-els.lock.addEventListener("click", () => lock());
+for (const b of document.querySelectorAll("[data-lock]")) b.addEventListener("click", () => lock());
 
 // ---------------------------------------------------------------- layout
 const compactMQ = matchMedia("(max-width: 699.98px) and (not (horizontal-viewport-segments: 2))");
@@ -142,7 +142,7 @@ function renderList() {
   if (!items.length) {
     const p = document.createElement("p");
     p.className = "list-empty";
-    p.textContent = q ? "No chats match." : "No chats yet. Start one!";
+    p.textContent = q ? "No matching pages" : "No pages";
     els.list.append(p);
     return;
   }
@@ -160,13 +160,8 @@ function renderList() {
     a.className = "convo";
     a.href = `#/c/${c.id}`;
     if (state.current?.id === c.id) a.setAttribute("aria-current", "page");
-    const t = document.createElement("span");
-    t.className = "t";
-    t.textContent = c.title;
-    const p = document.createElement("span");
-    p.className = "p";
-    p.textContent = c.preview || " ";
-    a.append(t, p);
+    a.textContent = c.title;
+    a.title = c.title;
     els.list.append(a);
   }
 }
@@ -222,7 +217,7 @@ els.newChatSide.addEventListener("click", newChat);
 
 function showNewChat() {
   state.current = null;
-  els.title.textContent = "New chat";
+  els.title.textContent = "New page";
   els.chatMenu.hidden = true;
   els.messages.replaceChildren();
   els.empty.hidden = false;
@@ -242,7 +237,7 @@ async function openConversation(id) {
     scrollToBottom(true);
   } catch (err) {
     if (err.message === "Unauthorized") return;
-    toast(navigator.onLine ? "Couldn't open that chat." : "You're offline.");
+    toast(navigator.onLine ? "Couldn't open that page." : "You're offline.");
     location.hash = "#/";
   }
 }
@@ -305,7 +300,7 @@ function assistantView() {
     if (thinkingEl) return thinkingEl;
     thinkingEl = document.createElement("details");
     thinkingEl.className = "thinking";
-    thinkingEl.innerHTML = "<summary>Thinking</summary><div class=\"thought\"></div>";
+    thinkingEl.innerHTML = "<summary>Working</summary><div class=\"thought\"></div>";
     el.insertBefore(thinkingEl, steps);
     return thinkingEl;
   };
@@ -493,14 +488,14 @@ els.sheet.addEventListener("click", async (e) => {
 
 async function renameCurrent() {
   const c = state.current;
-  const title = prompt("Rename chat", c.title)?.trim();
+  const title = prompt("Rename page", c.title)?.trim();
   if (!title || title === c.title) return;
   try {
     const s = await (await api(`/conversations/${c.id}`, { method: "PATCH", body: { title } })).json();
     c.title = s.title;
     els.title.textContent = s.title;
     upsertSummary(s);
-  } catch { toast("Couldn't rename the chat."); }
+  } catch { toast("Couldn't rename the page."); }
 }
 
 async function deleteCurrent() {
@@ -511,7 +506,7 @@ async function deleteCurrent() {
     state.conversations = state.conversations.filter((x) => x.id !== c.id);
     store.set(LIST_CACHE_KEY, JSON.stringify(state.conversations));
     newChat();
-  } catch { toast("Couldn't delete the chat."); }
+  } catch { toast("Couldn't delete the page."); }
 }
 
 let toastTimer;
